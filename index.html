@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JadePay Resto</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Navigation principale">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">JP</div>
+          <div>
+            <strong>JadePay Resto</strong>
+            <span>餐馆收银</span>
+          </div>
+        </div>
+
+        <nav class="nav-list">
+          <button class="nav-item active" data-view="dashboard" type="button">
+            <span aria-hidden="true">⌂</span>
+            <span>Accueil</span>
+          </button>
+          <button class="nav-item" data-view="checkout" type="button">
+            <span aria-hidden="true">€</span>
+            <span>Caisse</span>
+          </button>
+          <button class="nav-item" data-view="orders" type="button">
+            <span aria-hidden="true">≡</span>
+            <span>Tickets</span>
+          </button>
+          <button class="nav-item" data-view="payments" type="button">
+            <span aria-hidden="true">▣</span>
+            <span>Paiements</span>
+          </button>
+          <button class="nav-item" data-view="closing" type="button">
+            <span aria-hidden="true">✓</span>
+            <span>Clôture</span>
+          </button>
+          <button class="nav-item" data-view="reports" type="button">
+            <span aria-hidden="true">↗</span>
+            <span>Rapports</span>
+          </button>
+        </nav>
+
+        <div class="operator-card">
+          <span>Service actif</span>
+          <strong>Restaurant Lotus Bleu</strong>
+          <small>Paris 13e · mode bilingue</small>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Lundi 25 mai 2026</p>
+            <h1 id="view-title">Tableau de bord</h1>
+          </div>
+          <div class="topbar-actions">
+            <label class="language-toggle">
+              <input id="chinese-mode" type="checkbox" checked />
+              <span>中文辅助</span>
+            </label>
+            <button class="ghost-button" type="button" id="sync-button">Synchroniser TPE</button>
+          </div>
+        </header>
+
+        <section class="view active" id="dashboard-view">
+          <div class="hero">
+            <img src="assets/restaurant-terminal.png" alt="Comptoir de restaurant avec terminal de paiement" />
+            <div class="hero-copy">
+              <p class="eyebrow">Pensé pour les patrons chinois en restauration</p>
+              <h2>Valider la journée sans y passer la nuit</h2>
+              <p>La caisse rapproche automatiquement tickets, TPE, espèces, plateformes de livraison et remises pour faire ressortir seulement ce qui demande votre attention.</p>
+              <button class="primary-button" data-view-jump="closing" type="button">Préparer la clôture</button>
+            </div>
+          </div>
+
+          <div class="metric-grid">
+            <article class="metric">
+              <span>CA encaissé</span>
+              <strong id="metric-revenue">0 €</strong>
+              <small>含税营业额</small>
+            </article>
+            <article class="metric">
+              <span>Tickets</span>
+              <strong id="metric-orders">0</strong>
+              <small>dont 6 factures pro</small>
+            </article>
+            <article class="metric">
+              <span>Écart à vérifier</span>
+              <strong id="metric-gap">0 €</strong>
+              <small>après rapprochement</small>
+            </article>
+            <article class="metric">
+              <span>Statut fiscal</span>
+              <strong>Prêt</strong>
+              <small>TVA et Z de caisse</small>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="panel">
+              <div class="panel-header">
+                <h3>Actions rapides</h3>
+              </div>
+              <div class="quick-actions">
+                <button data-view-jump="checkout" type="button">Nouvel encaissement</button>
+                <button data-view-jump="payments" type="button">Voir TPE</button>
+                <button data-view-jump="orders" type="button">Retrouver facture</button>
+                <button data-view-jump="closing" type="button">Contrôle du soir</button>
+              </div>
+            </section>
+            <section class="panel">
+              <div class="panel-header">
+                <h3>Alertes du jour</h3>
+                <span class="status-pill warning">2 à traiter</span>
+              </div>
+              <ul class="alert-list" id="alert-list"></ul>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="checkout-view">
+          <div class="work-grid">
+            <section class="panel menu-panel">
+              <div class="panel-header">
+                <h3>Carte rapide</h3>
+                <div class="segmented" role="group" aria-label="Catégorie">
+                  <button class="active" type="button" data-category="all">Tout</button>
+                  <button type="button" data-category="food">Plats</button>
+                  <button type="button" data-category="drink">Boissons</button>
+                </div>
+              </div>
+              <div class="menu-grid" id="menu-grid"></div>
+            </section>
+            <aside class="panel cart-panel">
+              <div class="panel-header">
+                <h3>Ticket en cours</h3>
+                <span class="status-pill">Table 8</span>
+              </div>
+              <div class="cart-list" id="cart-list"></div>
+              <div class="cart-summary">
+                <div><span>Total TTC</span><strong id="cart-total">0 €</strong></div>
+                <div><span>TVA estimée</span><strong id="cart-tax">0 €</strong></div>
+              </div>
+              <div class="payment-buttons">
+                <button class="primary-button" type="button" data-pay="Carte">Carte TPE</button>
+                <button type="button" data-pay="Espèces">Espèces</button>
+                <button type="button" data-pay="WeChat Pay">WeChat Pay</button>
+                <button type="button" data-pay="Ticket resto">Ticket resto</button>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="orders-view">
+          <section class="panel">
+            <div class="panel-header">
+              <h3>Tickets et factures</h3>
+              <input class="search" id="order-search" type="search" placeholder="Rechercher table, facture, montant..." />
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Heure</th>
+                    <th>Ticket</th>
+                    <th>Canal</th>
+                    <th>Paiement</th>
+                    <th>Total</th>
+                    <th>Statut</th>
+                  </tr>
+                </thead>
+                <tbody id="orders-table"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="payments-view">
+          <div class="dashboard-grid">
+            <section class="panel">
+              <div class="panel-header">
+                <h3>Flux TPE et paiements</h3>
+                <button class="ghost-button" type="button" id="import-payments">Importer relevé</button>
+              </div>
+              <div class="payment-feed" id="payment-feed"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-header">
+                <h3>Répartition</h3>
+              </div>
+              <div class="bars" id="payment-bars"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="closing-view">
+          <div class="closing-layout">
+            <section class="panel closing-panel">
+              <div class="panel-header">
+                <div>
+                  <h3>Validation du chiffre d'affaires</h3>
+                  <p>Contrôle accéléré pour fin de service tardive</p>
+                </div>
+                <span class="status-pill" id="closing-status">Brouillon</span>
+              </div>
+
+              <div class="closing-steps">
+                <label class="check-row">
+                  <input type="checkbox" checked />
+                  <span>Z de caisse généré et archivé</span>
+                  <strong id="z-total">0 €</strong>
+                </label>
+                <label class="check-row">
+                  <input type="checkbox" checked />
+                  <span>Relevé TPE rapproché</span>
+                  <strong id="terminal-total">0 €</strong>
+                </label>
+                <label class="check-row">
+                  <input type="checkbox" />
+                  <span>Espèces comptées dans le tiroir</span>
+                  <input class="money-input" id="cash-count" type="number" value="64.50" min="0" step="0.01" />
+                </label>
+                <label class="check-row">
+                  <input type="checkbox" checked />
+                  <span>Factures annulées justifiées</span>
+                  <strong>2</strong>
+                </label>
+              </div>
+
+              <div class="reconcile-box">
+                <div>
+                  <span>Écart final</span>
+                  <strong id="final-gap">0 €</strong>
+                </div>
+                <p id="gap-message">Analyse en cours.</p>
+              </div>
+
+              <div class="closing-actions">
+                <button class="ghost-button" id="auto-fix" type="button">Proposer corrections</button>
+                <button class="primary-button" id="validate-day" type="button">Valider la journée</button>
+              </div>
+            </section>
+
+            <aside class="panel">
+              <div class="panel-header">
+                <h3>Contrôles intelligents</h3>
+              </div>
+              <ul class="audit-list" id="audit-list"></ul>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="reports-view">
+          <div class="dashboard-grid">
+            <section class="panel">
+              <div class="panel-header">
+                <h3>Résumé fiscal</h3>
+                <button class="ghost-button" type="button">Exporter PDF</button>
+              </div>
+              <div class="report-list" id="report-list"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-header">
+                <h3>Historique des clôtures</h3>
+              </div>
+              <div class="history-list" id="history-list"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Balipay - CTO Technical Roadmap</title>
+    <link rel="stylesheet" href="roadmap.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="cover">
+        <div>
+          <div class="brand"><span class="mark">BP</span> Balipay</div>
+          <h1>CTO Technical Roadmap</h1>
+          <p class="subtitle">Cross-border payment aggregation platform for Chinese merchants in France and China-Europe businesses.</p>
+        </div>
+        <div class="meta">
+          <p><strong>Version:</strong> June 2026</p>
+          <p><strong>Positioning:</strong> Balipay as the commercial, TPE/POS, QR, dashboard, AI and PSP-integration layer, without directly holding funds at launch.</p>
+          <p><strong>Tagline:</strong> Balipay - Your gateway between China and Europe.</p>
+        </div>
+      </section>
+    </main>
+
+    <main class="page page-break">
+      <section class="section">
+        <h2>0. Technical Principles</h2>
+        <div class="note">
+          Balipay should not behave like a bank at launch. The first product should become an operating system for merchants: POS, QR payment, merchant dashboard, reconciliation, reporting and bilingual support.
+        </div>
+        <p>The recommended payment flow is:</p>
+        <div class="architecture">
+          <div class="flow">
+            <span class="box">Customer</span><span class="arrow">→</span>
+            <span class="box">Balipay POS / QR</span><span class="arrow">→</span>
+            <span class="box">Balipay API</span><span class="arrow">→</span>
+            <span class="box">PSP Partner</span><span class="arrow">→</span>
+            <span class="box">Alipay / WeChat Pay / Card / UnionPay</span><span class="arrow">→</span>
+            <span class="box">Merchant Account</span>
+          </div>
+        </div>
+        <p>The licensed PSP should handle collection, safeguarding, compliance, refunds, disputes and settlement. Balipay should own the merchant experience, connectors, reporting, AI assistance, field distribution and local relationship.</p>
+      </section>
+
+      <section class="section">
+        <h2>1. Payment Gateway / PSP Gateway</h2>
+        <p><strong>Objective:</strong> build a Balipay gateway able to accept payments through POS terminals, QR codes and a PSP partner. Realistic duration: 8 to 12 weeks. A visual demo can be built in 4 weeks, but a testable product with security, callbacks, refunds and logs requires more time.</p>
+        <table>
+          <thead><tr><th>Step</th><th>Duration</th><th>Scope</th><th>Deliverable</th></tr></thead>
+          <tbody>
+            <tr><td>Payment architecture</td><td>1 week</td><td>Define order, payment, refund, settlement and webhook flows.</td><td>Technical and fund-flow diagrams</td></tr>
+            <tr><td>PSP evaluation</td><td>1 to 2 weeks</td><td>Compare Silkpay, Worldline, YabandPay, 2PayNow, Adyen and Checkout.com.</td><td>API, cost and compliance matrix</td></tr>
+            <tr><td>POS supplier selection</td><td>1 week</td><td>Compare Sunmi, PAX and Newland: Android SDK, printer, scanner, security.</td><td>Supplier shortlist</td></tr>
+            <tr><td>POS prototype</td><td>2 weeks</td><td>Amount input, order creation, QR display, payment status, receipt.</td><td>POS alpha app</td></tr>
+            <tr><td>PSP API integration</td><td>2 to 3 weeks</td><td>Payment, webhook, refund, transaction lookup and sandbox integration.</td><td>PSP connector MVP</td></tr>
+            <tr><td>Indirect Alipay / WeChat Pay</td><td>1 week</td><td>Use the PSP partner instead of direct contracts at launch.</td><td>Test transactions</td></tr>
+            <tr><td>Security and observability</td><td>1 to 2 weeks</td><td>API signatures, idempotency, webhook validation, logs and alerts.</td><td>Security baseline</td></tr>
+            <tr><td>Field testing</td><td>1 to 2 weeks</td><td>Failure cases, network loss, duplicates, refunds and daily closing.</td><td>Test report</td></tr>
+          </tbody>
+        </table>
+        <p>AI should stay outside the payment critical path. It can explain discrepancies, generate summaries, assist support and translate, but it should not independently approve or block transactions.</p>
+      </section>
+
+      <section class="section">
+        <h2>2. Market, Pricing and Services Research</h2>
+        <p><strong>Objective:</strong> identify what Chinese merchants are truly willing to pay for. Duration: 4 to 6 weeks, in parallel with product development.</p>
+        <table>
+          <thead><tr><th>Step</th><th>Duration</th><th>Scope</th><th>Deliverable</th></tr></thead>
+          <tbody>
+            <tr><td>Merchant interview guide</td><td>2 days</td><td>Restaurants, groceries, salons, agencies, boutiques and wholesalers.</td><td>Interview script</td></tr>
+            <tr><td>50 field interviews</td><td>2 to 3 weeks</td><td>Paris 13e, Belleville and Aubervilliers.</td><td>Needs and pricing database</td></tr>
+            <tr><td>Pricing tests</td><td>1 week</td><td>Commission, subscription, POS rental and installation fees.</td><td>Pricing grid</td></tr>
+            <tr><td>Service packages</td><td>1 week</td><td>Basic, POS, Pro and Premium.</td><td>Commercial offers</td></tr>
+            <tr><td>Pilot commitments</td><td>1 to 2 weeks</td><td>Secure 20 letters of intent.</td><td>Pilot merchant list</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <main class="page page-break">
+      <section class="section">
+        <h2>3. Website and Merchant Application</h2>
+        <p><strong>Objective:</strong> create a website with the clarity and trust level of Silkpay, plus a simple bilingual merchant app. Duration: 4 to 6 weeks.</p>
+        <table>
+          <thead><tr><th>Step</th><th>Duration</th><th>Scope</th><th>Deliverable</th></tr></thead>
+          <tbody>
+            <tr><td>Landing page</td><td>1 week</td><td>Explain the value: accept Alipay, WeChat Pay and cards, receive euros.</td><td>Homepage</td></tr>
+            <tr><td>Industry pages</td><td>1 week</td><td>Restaurant, retail, tourism, wholesale and e-commerce.</td><td>Conversion pages</td></tr>
+            <tr><td>FAQ and pricing</td><td>3 to 5 days</td><td>Fees, settlement, refunds, installation and compliance.</td><td>Bilingual FAQ</td></tr>
+            <tr><td>Merchant application form</td><td>1 week</td><td>SIRET, address, contact, needs and estimated volume.</td><td>Lead funnel</td></tr>
+            <tr><td>Chatbot</td><td>1 week</td><td>French/Chinese answers about pricing, installation, POS and payments.</td><td>Chatbot MVP</td></tr>
+            <tr><td>Merchant application</td><td>2 weeks</td><td>Login, transactions, daily closing, refund request and support.</td><td>Merchant app MVP</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <h2>4. Merchant Management Space</h2>
+        <p><strong>Objective:</strong> give merchants real-time control over payments, sales, refunds, fees and anomalies. Duration: 6 to 8 weeks.</p>
+        <table>
+          <thead><tr><th>Step</th><th>Duration</th><th>Scope</th><th>Deliverable</th></tr></thead>
+          <tbody>
+            <tr><td>Dashboard</td><td>1 to 2 weeks</td><td>Daily revenue, transaction count and payment-method split.</td><td>Merchant dashboard</td></tr>
+            <tr><td>Transaction management</td><td>1 week</td><td>Search, filters, details, status and PSP reference.</td><td>Transaction table</td></tr>
+            <tr><td>Daily closing and reconciliation</td><td>2 weeks</td><td>Compare POS, QR, refunds, fees and settlement.</td><td>Daily closing module</td></tr>
+            <tr><td>Financial exports</td><td>1 week</td><td>CSV, PDF, VAT fields and accounting summary.</td><td>Accounting exports</td></tr>
+            <tr><td>AI assistant</td><td>1 to 2 weeks</td><td>Explain anomalies, summarize the day, translate and prepare accountant messages.</td><td>AI Copilot</td></tr>
+            <tr><td>Multi-store</td><td>1 week</td><td>One owner can monitor several stores.</td><td>Multi-store MVP</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <h2>5. Regulatory Compliance</h2>
+        <p><strong>Objective:</strong> reduce regulatory risk in France, Europe and China. Initial design: 4 to 6 weeks, then continuous review.</p>
+        <table>
+          <thead><tr><th>Step</th><th>Duration</th><th>Scope</th><th>Deliverable</th></tr></thead>
+          <tbody>
+            <tr><td>Legal positioning</td><td>1 week</td><td>Determine whether Balipay is a technology provider, distributor, PSP agent or other role.</td><td>Legal memo</td></tr>
+            <tr><td>PSP contract review</td><td>1 to 2 weeks</td><td>KYC, AML, funds, refunds, disputes and responsibility boundaries.</td><td>Contract checklist</td></tr>
+            <tr><td>KYC / AML</td><td>1 week</td><td>Documents, UBO, sector risk and sanctions screening.</td><td>KYB process</td></tr>
+            <tr><td>GDPR</td><td>1 week</td><td>Data, consent, retention, DPA and privacy policy.</td><td>Privacy pack</td></tr>
+            <tr><td>China-side compliance</td><td>1 to 2 weeks</td><td>Alipay/WeChat Pay rules, FX, marketing and cross-border settlement.</td><td>China memo</td></tr>
+            <tr><td>Payment security</td><td>1 to 2 weeks</td><td>PCI-DSS scope, key management, access control, logs and incident process.</td><td>Security checklist</td></tr>
+          </tbody>
+        </table>
+        <div class="note warning">Balipay should not promise to bypass FX rules, hold funds without a licensed partner or replace a bank. The message should remain: payment acceptance, operational simplification and merchant services.</div>
+      </section>
+    </main>
+
+    <main class="page page-break">
+      <section class="section">
+        <h2>6. Payment Partners</h2>
+        <p><strong>Objective:</strong> select an initial partner able to serve Chinese and tourism-oriented merchants in France. Duration: 4 to 8 weeks.</p>
+        <table>
+          <thead><tr><th>Step</th><th>Duration</th><th>Scope</th><th>Deliverable</th></tr></thead>
+          <tbody>
+            <tr><td>Longlist</td><td>3 days</td><td>Silkpay, Worldline, YabandPay, 2PayNow, Adyen, Checkout.com.</td><td>Partner list</td></tr>
+            <tr><td>API evaluation</td><td>1 week</td><td>QR, POS, refunds, reporting, sandbox and webhooks.</td><td>API scorecard</td></tr>
+            <tr><td>Business evaluation</td><td>1 week</td><td>Fees, settlement, minimums, white-label capability and support.</td><td>Business scorecard</td></tr>
+            <tr><td>Compliance evaluation</td><td>1 week</td><td>Who owns KYC, AML, funds and disputes.</td><td>Compliance matrix</td></tr>
+            <tr><td>Pilot negotiation</td><td>2 to 4 weeks</td><td>Conditions for 10 to 20 pilot merchants.</td><td>Pilot contract</td></tr>
+          </tbody>
+        </table>
+        <p>Recommended priority: Silkpay or YabandPay for proximity to Chinese payment scenarios, Worldline for local credibility, then Adyen or Checkout.com for scalability. UnionPay can be added as a complementary method.</p>
+      </section>
+
+      <section class="section">
+        <h2>7. Administration and Operations</h2>
+        <p><strong>Objective:</strong> make Balipay able to sign, bill, install, train and support merchants. Duration: 4 to 6 weeks.</p>
+        <table>
+          <thead><tr><th>Step</th><th>Duration</th><th>Scope</th><th>Deliverable</th></tr></thead>
+          <tbody>
+            <tr><td>SAS incorporation</td><td>1 to 2 weeks</td><td>Company, bank account, accountant and insurance.</td><td>Balipay SAS</td></tr>
+            <tr><td>Brand and domain</td><td>2 to 3 days</td><td>Name, logo, domain and email setup.</td><td>Brand assets</td></tr>
+            <tr><td>Merchant contract</td><td>1 week</td><td>Pricing, POS, responsibilities, refunds and termination.</td><td>Merchant agreement</td></tr>
+            <tr><td>Legal documents</td><td>1 week</td><td>Terms, privacy policy, DPA and legal notices.</td><td>Legal pack</td></tr>
+            <tr><td>Support</td><td>1 week</td><td>WeChat, email, phone, tickets and SLA.</td><td>Support playbook</td></tr>
+            <tr><td>Field installation</td><td>1 week</td><td>POS delivery, training, payment test and D+7 follow-up.</td><td>Onboarding checklist</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <h2>8. Integration Methods</h2>
+        <p><strong>Objective:</strong> turn Balipay into multi-channel payment infrastructure, not just a terminal provider. Overall duration: 12 to 18 months.</p>
+        <table>
+          <thead><tr><th>Integration</th><th>Duration</th><th>Priority</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td>Static QR</td><td>2 weeks</td><td>P0</td><td>Fast start for small merchants</td></tr>
+            <tr><td>Dynamic QR</td><td>3 to 4 weeks</td><td>P0</td><td>Amount generated by POS or cashier system</td></tr>
+            <tr><td>Android POS</td><td>8 to 12 weeks</td><td>P0</td><td>Restaurants, groceries, boutiques and tourism</td></tr>
+            <tr><td>Pay by Link</td><td>3 to 4 weeks</td><td>P1</td><td>Deposits, remote sales and WeChat sharing</td></tr>
+            <tr><td>Hosted checkout</td><td>4 to 6 weeks</td><td>P1</td><td>Web payment page</td></tr>
+            <tr><td>Payment API</td><td>6 to 8 weeks</td><td>P1</td><td>Advanced merchants</td></tr>
+            <tr><td>E-commerce plugins</td><td>8 to 10 weeks each</td><td>P2</td><td>Shopify, WooCommerce and PrestaShop</td></tr>
+            <tr><td>WeChat Mini Program</td><td>8 to 12 weeks</td><td>P3</td><td>Chinese customer experience</td></tr>
+            <tr><td>In-app payment</td><td>8 to 12 weeks</td><td>P3</td><td>Future Balipay customer app</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <main class="page page-break">
+      <section class="section">
+        <h2>9. Banking-as-a-Service, Wallet and Cards</h2>
+        <p><strong>Objective:</strong> prepare future wallet, virtual card, IBAN and cashback capabilities without launching them too early. Initial research: 8 to 12 weeks. Real productization: 6 to 12 months after commercial validation.</p>
+        <table>
+          <thead><tr><th>Step</th><th>Duration</th><th>Scope</th><th>Deliverable</th></tr></thead>
+          <tbody>
+            <tr><td>BaaS evaluation</td><td>2 to 3 weeks</td><td>Treezor, Swan, Solaris and other EMIs.</td><td>BaaS matrix</td></tr>
+            <tr><td>Product boundaries</td><td>1 to 2 weeks</td><td>Wallet, card, IBAN and cashback legal/technical dependencies.</td><td>Compliance map</td></tr>
+            <tr><td>KYC / KYB</td><td>2 weeks</td><td>Consumers, merchants and companies.</td><td>Onboarding flows</td></tr>
+            <tr><td>Ledger</td><td>2 to 3 weeks</td><td>Balances, cashback, refunds, holds and adjustments.</td><td>Ledger architecture</td></tr>
+            <tr><td>Virtual card PoC</td><td>4 to 8 weeks</td><td>Issuing, limits, notifications and transactions.</td><td>Issuing PoC</td></tr>
+            <tr><td>Wallet beta</td><td>3 to 6 months</td><td>Limited test with controlled users.</td><td>Closed beta</td></tr>
+          </tbody>
+        </table>
+        <div class="note">A wallet is not a simple balance field. It requires a ledger, KYC, AML, safeguarded funds, support, financial reporting, disputes and card scheme rules.</div>
+      </section>
+
+      <section class="section">
+        <h2>12-Month Technical Plan</h2>
+        <table>
+          <thead><tr><th>Month</th><th>Technical Priority</th></tr></thead>
+          <tbody>
+            <tr><td>M1</td><td>Architecture, partner evaluation, POS selection and merchant research.</td></tr>
+            <tr><td>M2</td><td>Website, merchant application form, PSP sandbox and POS prototype.</td></tr>
+            <tr><td>M3</td><td>QR payment, webhook and dashboard alpha.</td></tr>
+            <tr><td>M4</td><td>POS beta, refunds, transaction lookup and logs.</td></tr>
+            <tr><td>M5</td><td>Daily closing, reconciliation, AI reporting and 10 pilot merchants.</td></tr>
+            <tr><td>M6</td><td>Security, GDPR, admin support and pilot review.</td></tr>
+            <tr><td>M7-M8</td><td>30 merchants, stability, POS rollout and training.</td></tr>
+            <tr><td>M9-M10</td><td>Pay by Link, additional payment methods and advanced reporting.</td></tr>
+            <tr><td>M11-M12</td><td>100-merchant readiness, Balipay billing and sales back office.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <h2>MVP Scope</h2>
+        <div class="kpi-grid">
+          <div class="kpi"><strong>P0</strong>Merchant onboarding, POS app, QR payment, PSP API, webhooks, refund, dashboard, daily closing, admin, exports, bilingual UI and monitoring.</div>
+          <div class="kpi"><strong>P1</strong>Pay by Link, fee billing, multi-store, loyalty, merchant-funded cashback and accounting integration.</div>
+          <div class="kpi"><strong>P2</strong>Wallet, virtual card, IBAN, multi-currency account, physical card and direct Alipay/Tencent partnership.</div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>CTO Conclusion</h2>
+        <p>In year one, Balipay should not try to become Revolut. The right technical objective is to become the payment operating system for 100 Chinese merchants in France: POS, QR, PSP partner, back office, daily reconciliation, bilingual support and AI assistance.</p>
+        <p>If this commercial base works, Balipay will then have the credibility required to negotiate deeper partnerships with Alipay, Tencent, UnionPay, BaaS providers and investors.</p>
+      </section>
+
+      <div class="footer">Balipay - CTO Technical Roadmap - June 2026</div>
+    </main>
+  </body>
+</html>

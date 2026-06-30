@@ -1,0 +1,16 @@
+{
+  "name": "balipay-backoffice",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "backend-api",
+    "admin-web"
+  ],
+  "scripts": {
+    "dev": "docker compose up --build",
+    "dev:backend": "npm --workspace backend-api run start:dev",
+    "dev:admin": "npm --workspace admin-web run dev",
+    "build": "npm --workspace backend-api run build && npm --workspace admin-web run build",
+    "test": "npm --workspace backend-api run test && npm --workspace admin-web run test"
+  }
+}

@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Balipay - Roadmap Technique CTO</title>
+    <link rel="stylesheet" href="roadmap.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="cover">
+        <div>
+          <div class="brand"><span class="mark">BP</span> Balipay</div>
+          <h1>Roadmap Technique CTO</h1>
+          <p class="subtitle">Plateforme d'agrégation de paiements transfrontaliers pour les commerçants chinois en France et les entreprises Chine-Europe.</p>
+        </div>
+        <div class="meta">
+          <p><strong>Version :</strong> Juin 2026</p>
+          <p><strong>Positionnement :</strong> Balipay comme couche commerciale, TPE, QR, back-office, IA et intégration PSP, sans détention directe des fonds au démarrage.</p>
+          <p><strong>Slogan :</strong> Balipay - Votre passerelle entre la Chine et l'Europe.</p>
+        </div>
+      </section>
+    </main>
+
+    <main class="page page-break">
+      <section class="section">
+        <h2>0. Principes Techniques</h2>
+        <div class="note">
+          Balipay ne doit pas se comporter comme une banque au démarrage. Le produit doit d'abord devenir un système opérationnel pour les commerçants : TPE, QR code, paiement, tableau de bord, rapprochement, reporting et support bilingue.
+        </div>
+        <p>Le flux recommandé est le suivant :</p>
+        <div class="architecture">
+          <div class="flow">
+            <span class="box">Client</span><span class="arrow">→</span>
+            <span class="box">TPE / QR Balipay</span><span class="arrow">→</span>
+            <span class="box">API Balipay</span><span class="arrow">→</span>
+            <span class="box">Partenaire PSP</span><span class="arrow">→</span>
+            <span class="box">Alipay / WeChat Pay / CB / UnionPay</span><span class="arrow">→</span>
+            <span class="box">Compte commerçant</span>
+          </div>
+        </div>
+        <p>Le PSP agréé doit gérer la collecte, la conservation, la conformité, les remboursements réglementaires et le règlement des fonds. Balipay gère l'expérience commerçant, les connecteurs, les rapports, l'IA, la distribution et la relation terrain.</p>
+      </section>
+
+      <section class="section">
+        <h2>1. Passerelle de Paiement / PSP Gateway</h2>
+        <p><strong>Objectif :</strong> construire une passerelle Balipay capable d'accepter des paiements via TPE, QR code et partenaire PSP. Durée réaliste : 8 à 12 semaines. Un prototype visuel peut être réalisé en 4 semaines, mais une version testable avec sécurité, callbacks, remboursements et logs demande plus de temps.</p>
+        <table>
+          <thead><tr><th>Étape</th><th>Durée</th><th>Contenu</th><th>Livrable</th></tr></thead>
+          <tbody>
+            <tr><td>Architecture paiement</td><td>1 semaine</td><td>Définir les flux commande, paiement, remboursement, règlement et webhook.</td><td>Schéma technique et flux de fonds</td></tr>
+            <tr><td>Évaluation PSP</td><td>1 à 2 semaines</td><td>Comparer Silkpay, Worldline, YabandPay, 2PayNow, Adyen, Checkout.com.</td><td>Matrice API, coût, conformité</td></tr>
+            <tr><td>Choix TPE</td><td>1 semaine</td><td>Comparer Sunmi, PAX, Newland : Android SDK, imprimante, scanner, sécurité.</td><td>Shortlist fournisseur</td></tr>
+            <tr><td>Prototype TPE</td><td>2 semaines</td><td>Saisie montant, création ordre, QR, statut, reçu.</td><td>Application TPE alpha</td></tr>
+            <tr><td>Intégration API PSP</td><td>2 à 3 semaines</td><td>Paiement, webhook, remboursement, transaction lookup, sandbox.</td><td>Connecteur PSP MVP</td></tr>
+            <tr><td>Alipay / WeChat Pay indirect</td><td>1 semaine</td><td>Passer par le PSP partenaire plutôt que par un contrat direct.</td><td>Transactions test</td></tr>
+            <tr><td>Sécurité et observabilité</td><td>1 à 2 semaines</td><td>Signature API, idempotence, validation webhook, logs, alertes.</td><td>Baseline sécurité</td></tr>
+            <tr><td>Tests terrain</td><td>1 à 2 semaines</td><td>Échecs, coupure réseau, doublons, refund, clôture journée.</td><td>Rapport de tests</td></tr>
+          </tbody>
+        </table>
+        <p>L'IA doit rester hors du chemin critique du paiement. Elle peut expliquer les écarts, générer des résumés, assister le support et traduire, mais ne doit pas décider seule d'accepter ou bloquer une transaction.</p>
+      </section>
+
+      <section class="section">
+        <h2>2. Étude Marché, Tarification et Services</h2>
+        <p><strong>Objectif :</strong> identifier les prix et services que les commerçants chinois sont réellement prêts à acheter. Durée : 4 à 6 semaines, en parallèle de la construction technique.</p>
+        <table>
+          <thead><tr><th>Étape</th><th>Durée</th><th>Contenu</th><th>Livrable</th></tr></thead>
+          <tbody>
+            <tr><td>Questionnaire commerçants</td><td>2 jours</td><td>Restaurants, épiceries, salons, agences, boutiques, grossistes.</td><td>Script d'entretien</td></tr>
+            <tr><td>50 entretiens terrain</td><td>2 à 3 semaines</td><td>Paris 13e, Belleville, Aubervilliers.</td><td>Base besoins/prix</td></tr>
+            <tr><td>Tests de prix</td><td>1 semaine</td><td>Commission, abonnement, location TPE, frais d'installation.</td><td>Grille tarifaire</td></tr>
+            <tr><td>Packages services</td><td>1 semaine</td><td>Basic, TPE, Pro, Premium.</td><td>Offres commerciales</td></tr>
+            <tr><td>Intentions pilotes</td><td>1 à 2 semaines</td><td>Obtenir 20 lettres d'intention.</td><td>Liste pilotes</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <main class="page page-break">
+      <section class="section">
+        <h2>3. Site Web et Application Commerçant</h2>
+        <p><strong>Objectif :</strong> créer un site comparable à Silkpay en clarté, avec une application commerçant simple et bilingue. Durée : 4 à 6 semaines.</p>
+        <table>
+          <thead><tr><th>Étape</th><th>Durée</th><th>Contenu</th><th>Livrable</th></tr></thead>
+          <tbody>
+            <tr><td>Landing page</td><td>1 semaine</td><td>Expliquer la valeur : accepter Alipay, WeChat Pay et CB, recevoir des euros.</td><td>Page d'accueil</td></tr>
+            <tr><td>Pages sectorielles</td><td>1 semaine</td><td>Restaurant, retail, tourisme, grossiste, e-commerce.</td><td>Pages conversion</td></tr>
+            <tr><td>FAQ et tarifs</td><td>3 à 5 jours</td><td>Frais, règlement, remboursement, installation, conformité.</td><td>FAQ bilingue</td></tr>
+            <tr><td>Formulaire commerçant</td><td>1 semaine</td><td>SIRET, adresse, contact, besoin, volume estimé.</td><td>Lead funnel</td></tr>
+            <tr><td>Chatbot</td><td>1 semaine</td><td>Réponses français/chinois sur tarifs, installation, TPE, paiement.</td><td>Chatbot MVP</td></tr>
+            <tr><td>Application commerçant</td><td>2 semaines</td><td>Connexion, transactions, clôture, remboursement, support.</td><td>App commerçant MVP</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <h2>4. Espace de Gestion Boutique</h2>
+        <p><strong>Objectif :</strong> donner au commerçant un contrôle en temps réel sur ses paiements, ventes, remboursements, frais et anomalies. Durée : 6 à 8 semaines.</p>
+        <table>
+          <thead><tr><th>Étape</th><th>Durée</th><th>Contenu</th><th>Livrable</th></tr></thead>
+          <tbody>
+            <tr><td>Dashboard</td><td>1 à 2 semaines</td><td>Chiffre du jour, nombre de transactions, moyens de paiement.</td><td>Tableau de bord</td></tr>
+            <tr><td>Gestion transactions</td><td>1 semaine</td><td>Recherche, filtres, détails, statut, référence PSP.</td><td>Transaction table</td></tr>
+            <tr><td>Clôture et rapprochement</td><td>2 semaines</td><td>Comparer TPE, QR, remboursements, frais, settlement.</td><td>Daily closing</td></tr>
+            <tr><td>Exports financiers</td><td>1 semaine</td><td>CSV, PDF, TVA, synthèse comptable.</td><td>Exports comptables</td></tr>
+            <tr><td>Assistant IA</td><td>1 à 2 semaines</td><td>Expliquer anomalies, résumer journée, traduire, préparer message comptable.</td><td>AI Copilot</td></tr>
+            <tr><td>Multi-boutiques</td><td>1 semaine</td><td>Un propriétaire peut suivre plusieurs établissements.</td><td>Multi-store MVP</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <h2>5. Conformité Réglementaire</h2>
+        <p><strong>Objectif :</strong> limiter le risque réglementaire en France, en Europe et côté Chine. Durée initiale : 4 à 6 semaines, puis suivi continu.</p>
+        <table>
+          <thead><tr><th>Étape</th><th>Durée</th><th>Contenu</th><th>Livrable</th></tr></thead>
+          <tbody>
+            <tr><td>Positionnement légal</td><td>1 semaine</td><td>Déterminer si Balipay est prestataire technique, distributeur, agent PSP ou autre.</td><td>Legal memo</td></tr>
+            <tr><td>Contrat PSP</td><td>1 à 2 semaines</td><td>Responsabilités KYC, AML, fonds, remboursements, litiges.</td><td>Checklist contrat</td></tr>
+            <tr><td>KYC / AML</td><td>1 semaine</td><td>Collecte documents, UBO, risque secteur, sanctions.</td><td>Process KYB</td></tr>
+            <tr><td>GDPR</td><td>1 semaine</td><td>Données, consentement, conservation, DPA, politique confidentialité.</td><td>Pack privacy</td></tr>
+            <tr><td>Conformité Chine</td><td>1 à 2 semaines</td><td>Règles Alipay/WeChat Pay, change, marketing, settlement transfrontalier.</td><td>China memo</td></tr>
+            <tr><td>Sécurité paiement</td><td>1 à 2 semaines</td><td>PCI-DSS scope, gestion clés, accès, logs, incidents.</td><td>Security checklist</td></tr>
+          </tbody>
+        </table>
+        <div class="note warning">Balipay ne doit pas promettre de contourner les règles de change, de détenir des fonds sans partenaire agréé ou de remplacer une banque. Le discours doit rester : acceptation de paiement, simplification opérationnelle et services commerçants.</div>
+      </section>
+    </main>
+
+    <main class="page page-break">
+      <section class="section">
+        <h2>6. Partenaires de Paiement</h2>
+        <p><strong>Objectif :</strong> choisir un partenaire initial capable de servir les commerçants chinois et touristiques en France. Durée : 4 à 8 semaines.</p>
+        <table>
+          <thead><tr><th>Étape</th><th>Durée</th><th>Contenu</th><th>Livrable</th></tr></thead>
+          <tbody>
+            <tr><td>Longlist</td><td>3 jours</td><td>Silkpay, Worldline, YabandPay, 2PayNow, Adyen, Checkout.com.</td><td>Liste partenaires</td></tr>
+            <tr><td>Évaluation API</td><td>1 semaine</td><td>QR, TPE, refund, reporting, sandbox, webhooks.</td><td>Scorecard API</td></tr>
+            <tr><td>Évaluation business</td><td>1 semaine</td><td>Frais, règlement, minimums, marque blanche, support.</td><td>Scorecard business</td></tr>
+            <tr><td>Évaluation conformité</td><td>1 semaine</td><td>Qui fait KYC, AML, détention de fonds, litiges.</td><td>Matrice conformité</td></tr>
+            <tr><td>Négociation pilote</td><td>2 à 4 semaines</td><td>Conditions pour 10 à 20 commerçants pilotes.</td><td>Contrat pilote</td></tr>
+          </tbody>
+        </table>
+        <p>Priorité recommandée : Silkpay ou YabandPay pour proximité avec les paiements chinois, Worldline pour crédibilité locale, puis Adyen ou Checkout.com pour scalabilité. UnionPay peut être ajouté comme moyen de paiement complémentaire.</p>
+      </section>
+
+      <section class="section">
+        <h2>7. Administration et Opérations</h2>
+        <p><strong>Objectif :</strong> rendre Balipay capable de signer, facturer, installer, former et supporter des commerçants. Durée : 4 à 6 semaines.</p>
+        <table>
+          <thead><tr><th>Étape</th><th>Durée</th><th>Contenu</th><th>Livrable</th></tr></thead>
+          <tbody>
+            <tr><td>Création SAS</td><td>1 à 2 semaines</td><td>Société, banque, comptable, assurance.</td><td>Balipay SAS</td></tr>
+            <tr><td>Marque et domaine</td><td>2 à 3 jours</td><td>Nom, logo, domaine, emails.</td><td>Brand assets</td></tr>
+            <tr><td>Contrat commerçant</td><td>1 semaine</td><td>Tarifs, TPE, responsabilités, refund, résiliation.</td><td>Merchant agreement</td></tr>
+            <tr><td>Documents légaux</td><td>1 semaine</td><td>CGU, privacy policy, DPA, mentions légales.</td><td>Legal pack</td></tr>
+            <tr><td>Support</td><td>1 semaine</td><td>WeChat, email, téléphone, tickets, SLA.</td><td>Support playbook</td></tr>
+            <tr><td>Installation terrain</td><td>1 semaine</td><td>Livraison TPE, formation, check de paiement, suivi J+7.</td><td>Onboarding checklist</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <h2>8. Méthodes d'Intégration</h2>
+        <p><strong>Objectif :</strong> transformer Balipay en infrastructure multi-canal, pas seulement en terminal de paiement. Durée globale : 12 à 18 mois.</p>
+        <table>
+          <thead><tr><th>Intégration</th><th>Durée</th><th>Priorité</th><th>Usage</th></tr></thead>
+          <tbody>
+            <tr><td>QR statique</td><td>2 semaines</td><td>P0</td><td>Démarrage rapide petits commerçants</td></tr>
+            <tr><td>QR dynamique</td><td>3 à 4 semaines</td><td>P0</td><td>Montant généré par caisse ou TPE</td></tr>
+            <tr><td>TPE Android</td><td>8 à 12 semaines</td><td>P0</td><td>Restaurants, épiceries, boutiques, tourisme</td></tr>
+            <tr><td>Pay by Link</td><td>3 à 4 semaines</td><td>P1</td><td>Acompte, vente à distance, WeChat</td></tr>
+            <tr><td>Hosted checkout</td><td>4 à 6 semaines</td><td>P1</td><td>Page de paiement web</td></tr>
+            <tr><td>API paiement</td><td>6 à 8 semaines</td><td>P1</td><td>Marchands plus avancés</td></tr>
+            <tr><td>Plugins e-commerce</td><td>8 à 10 semaines chacun</td><td>P2</td><td>Shopify, WooCommerce, PrestaShop</td></tr>
+            <tr><td>Mini-programme WeChat</td><td>8 à 12 semaines</td><td>P3</td><td>Expérience client chinois</td></tr>
+            <tr><td>In-app payment</td><td>8 à 12 semaines</td><td>P3</td><td>Future application client Balipay</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <main class="page page-break">
+      <section class="section">
+        <h2>9. Banking-as-a-Service, Wallet et Cartes</h2>
+        <p><strong>Objectif :</strong> préparer le futur wallet, les cartes virtuelles, l'IBAN et le cashback, sans les lancer trop tôt. Recherche initiale : 8 à 12 semaines. Produit réel : 6 à 12 mois après validation commerciale.</p>
+        <table>
+          <thead><tr><th>Étape</th><th>Durée</th><th>Contenu</th><th>Livrable</th></tr></thead>
+          <tbody>
+            <tr><td>Évaluation BaaS</td><td>2 à 3 semaines</td><td>Treezor, Swan, Solaris et autres EMI.</td><td>BaaS matrix</td></tr>
+            <tr><td>Frontières produit</td><td>1 à 2 semaines</td><td>Wallet, carte, IBAN, cashback : dépendances légales et techniques.</td><td>Compliance map</td></tr>
+            <tr><td>KYC / KYB</td><td>2 semaines</td><td>Particuliers, commerçants, sociétés.</td><td>Parcours onboarding</td></tr>
+            <tr><td>Ledger</td><td>2 à 3 semaines</td><td>Soldes, cashback, remboursements, gel, ajustements.</td><td>Architecture ledger</td></tr>
+            <tr><td>PoC carte virtuelle</td><td>4 à 8 semaines</td><td>Émission, limites, notifications, transactions.</td><td>PoC issuing</td></tr>
+            <tr><td>Wallet beta</td><td>3 à 6 mois</td><td>Test limité avec utilisateurs contrôlés.</td><td>Beta fermée</td></tr>
+          </tbody>
+        </table>
+        <div class="note">Un wallet n'est pas un simple champ de solde. Il exige ledger, KYC, AML, fonds protégés, support, reporting financier, gestion litiges et règles cartes.</div>
+      </section>
+
+      <section class="section">
+        <h2>Planning Technique 12 Mois</h2>
+        <table>
+          <thead><tr><th>Mois</th><th>Priorité technique</th></tr></thead>
+          <tbody>
+            <tr><td>M1</td><td>Architecture, évaluation partenaires, choix TPE, étude commerçants.</td></tr>
+            <tr><td>M2</td><td>Site, formulaire commerçant, sandbox PSP, prototype TPE.</td></tr>
+            <tr><td>M3</td><td>QR payment, webhook, dashboard alpha.</td></tr>
+            <tr><td>M4</td><td>TPE beta, refunds, recherche transaction, logs.</td></tr>
+            <tr><td>M5</td><td>Clôture, rapprochement, IA reporting, 10 commerçants pilotes.</td></tr>
+            <tr><td>M6</td><td>Sécurité, GDPR, support admin, bilan pilote.</td></tr>
+            <tr><td>M7-M8</td><td>30 commerçants, stabilité, déploiement TPE, formation.</td></tr>
+            <tr><td>M9-M10</td><td>Pay by Link, moyens additionnels, reporting avancé.</td></tr>
+            <tr><td>M11-M12</td><td>Préparation 100 commerçants, facturation Balipay, back-office sales.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <h2>Périmètre MVP</h2>
+        <div class="kpi-grid">
+          <div class="kpi"><strong>P0</strong>Onboarding commerçant, TPE App, QR payment, PSP API, webhooks, refund, dashboard, clôture, admin, export, bilingue, monitoring.</div>
+          <div class="kpi"><strong>P1</strong>Pay by Link, facturation des frais, multi-boutiques, fidélité, cashback financé commerçant, intégration comptable.</div>
+          <div class="kpi"><strong>P2</strong>Wallet, carte virtuelle, IBAN, compte multi-devises, carte physique, partenariat direct Alipay/Tencent.</div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Conclusion CTO</h2>
+        <p>La première année, Balipay ne doit pas essayer de devenir Revolut. Le bon objectif technique est de devenir le système de paiement opérationnel de 100 commerçants chinois en France : TPE, QR, partenaire PSP, back-office, rapprochement journalier, support bilingue et IA d'assistance.</p>
+        <p>Si cette base commerciale fonctionne, Balipay aura ensuite la crédibilité nécessaire pour négocier des partenariats plus profonds avec Alipay, Tencent, UnionPay, des BaaS et des investisseurs.</p>
+      </section>
+
+      <div class="footer">Balipay - Roadmap Technique CTO - Juin 2026</div>
+    </main>
+  </body>
+</html>
